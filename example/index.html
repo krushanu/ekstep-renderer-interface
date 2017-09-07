@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HTML Content</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: filesystem:; style-src 'self' 'unsafe-inline';  script-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src *;" >
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
+<body>
+  <!-- External Libraries -->
+  <script src="assets/js/underscore.js"></script>
+  
+  
+  <script src="assets/js/rendererInterface.js"></script>
+</br></br>
+ <center>
+ <h1>HTML-CONTENT</h1>
+ <hr>
+ </br>
+ <h3>CLICK BELOW BUTTON TO END THE GAME</h3>
+ </br>
+ <button onclick="RI.gotoEndPage()"><h3>CLOSE ME</h3></button>
+
+
+ <button onclick="RI.generateTelemetry()"><h3>Generate Telemetry</h3></button>
+ </center>   
+ </center>
+  
+  
+  <script type="text/javascript">
+  	var TelemetryServices = RI.parent.TelemetryService;
+    // var telemetryServices = RI.EkstepRendererAPI.getTelemetryService();
+
+
+  	function assess(){
+  		TelemetryServices.assess("pc.ad.w8.1.q1", "NUM", "MEDIUM", {'maxscore': undefined});
+    };
+    assess();
+
+
+  	RI.generateTelemetry = function(){
+	    // this.dispatchEvent("renderer:content:end");
+	    TelemetryServices.interact("TOUCH", "gc_reload", "TOUCH", {
+	        stageId: "currentStage"
+	    });
+
+	    var data = {"pass":false,"score":0,"res":[{"3":"true"}],"mmc":[],"qindex":1,"mc":[],"qtitle":"1 + 4 = ?","qdesc":""};
+	    var event = TelemetryServices.assess("pc.ad.w8.1.q1", "NUM", "MEDIUM", {'maxscore': 100});
+
+	    TelemetryServices.assessEnd(event, data);
+	}
+
+  </script>>
+ 
+  
+</body>
+</html>
