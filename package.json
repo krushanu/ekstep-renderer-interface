@@ -1,6 +1,6 @@
 {
   "name": "org.ekstep.rendererinterface",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "It helps to interact with the renderer and access renderer apis.",
   "main": "RendererInterface.js",
   "directories": {

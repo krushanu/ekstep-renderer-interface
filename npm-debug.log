@@ -1,0 +1,104 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'publish' ]
+2 info using npm@3.5.2
+3 info using node@v4.2.6
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/krushanu/Desktop/npmpublish/renderer-interface',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package.tgz not in flight; packing
+9 info lifecycle org.ekstep.rendererinterface@0.0.1~prepublish: org.ekstep.rendererinterface@0.0.1
+10 silly lifecycle org.ekstep.rendererinterface@0.0.1~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package.tgz',
+11 verbose tar pack   '/home/krushanu/Desktop/npmpublish/renderer-interface' ]
+12 verbose tarball /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package.tgz
+13 verbose folder /home/krushanu/Desktop/npmpublish/renderer-interface
+14 verbose addLocalTarball adding from inside cache /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package.tgz
+15 silly cache afterAdd org.ekstep.rendererinterface@0.0.1
+16 verbose afterAdd /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package/package.json not in flight; writing
+17 verbose afterAdd /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package/package.json written
+18 silly publish { name: 'org.ekstep.rendererinterface',
+18 silly publish   version: '0.0.1',
+18 silly publish   description: 'It helps to interact with the renderer and access renderer apis.',
+18 silly publish   main: 'RendererInterface.js',
+18 silly publish   directories: { example: 'example' },
+18 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/krushanu/ekstep-renderer-interface.git' },
+18 silly publish   keywords:
+18 silly publish    [ 'org.ekstep',
+18 silly publish      'ekstep',
+18 silly publish      'renderer',
+18 silly publish      'html',
+18 silly publish      'content',
+18 silly publish      'interface',
+18 silly publish      'genie',
+18 silly publish      'service' ],
+18 silly publish   author: { name: 'Krushanu Mohapatra' },
+18 silly publish   license: 'ISC',
+18 silly publish   bugs: { url: 'https://github.com/krushanu/ekstep-renderer-interface/issues' },
+18 silly publish   homepage: 'https://github.com/krushanu/ekstep-renderer-interface#readme',
+18 silly publish   readme: '# ekstep-renderer-interface\nrenderer interface for HTML content\n\n# Introduction:\n\nContentRenderer(GenieCanvas) has bundled with GenieService & TelemetryService. To log telemetry events, ContentRenderer is using TelemetryService. To get content specific API call, ContentPlayer is using GenieService in mobile/App and V3 API\'s when it is embedded in web preview(editor & portal).\n\nHTML content can\'t use these service directly because ContentRenderer is launching HTML content in IFrame. Iframe will not give direct access to its parent. To access the parent(ContentPlayer) services, HTML content has to bundled with RendererInterface file(javascript file).\n\nNote: [Deprecated HTML GenieService bridge](https://github.com/ekstep/Common-Design/wiki/HTML-GenieService-Bridge:-Invoke-GenieService-from-HTML-content#genieservice-methods)\n\n## RendererInterface\nRendererInterface is a javascript class, helps to communicate with the content renderer when the content is launched in Iframe.\nRendererInterface class variables & methods.\n\n### Variables\n\n| **Variable** | **Description**|\n|---------- | ----------- |\n| **parent**| To access content renderer methods or variables |\n| **EkstepRendererAPI**| To access ContentRenderer APIs |\n\n### Functions/APIs\n\n| **Function** | **Description**|\n|---------- | ----------- |\n| **dispatchEvent**| Dispatch event to communicate with ContentRenderer |\n| **getcontentMetadata**| Get current content metadata details |\n| **getConfig**| Get content renderer configuration |\n| **logTelemetryInteract**| Log temetry interact(OE_INTERACT) event |\n| **logTelemetryXapi**| log telemetry xapi(OE_XAPI) event (Used only for H5P contents) |\n| **gotoEndPage**| Show content renderer end-page after completion of game |\n| **isMobile**| Content renderer launch mode(launhced in mobile or web) |\n| **exit**| Exit from current content |\n\n## How to Use\nAdd the following to your HTML/application:\n\nThe file_path is the relative path (eg. assets/js) to these files within the HTML content.\n```js\n  <!-- Renderer Interface -->\n  <script src="[relative_path]/RendererInterface.js"></script>\n```\n\nOnload event handler of the HTML page, you can access RendererInterface variables or functions using `RI` or `org.ekstep.contentrenderer.interface`. This is the instance of RendererInterface class.\n\nTo log Telemetry events:\nUser can use telemetry events exposed by renderer directly\n```js\nRI.logTelemetryInteract(data);\n```\n\nTo log telemetry events which are not exposed by RendereInterface, Use the below workaround to log other Telemetry events\n```js\nvar TelemetryService = RI.parent.TelemetryService;\n\n// To log OE_ITEMRESPONSE option selection in assessment\nTelemetryService.itemResponse(data);\n\n// To log OE_ERROR when any interrupt happened\nTelemetryService.error(data)\n```\n\nTo use [ContentRenderer service methods](https://github.com/ekstep/Common-Design/wiki/TelemetryV2-manager-methods), to get content specific data  \n\n```js\nvar contentService = RI.EkstepRendererAPI.getService();  \n\n// To get Content metadata \ncontentService.getContent(contentId)\n      .then(function(result) {\n        // genieservice getcontent call success(success callback function)\n        console.log("Success - getContent", result);\n        var currentContent =  result;\n        return currentContent;\n      })\n      .catch(function(err){\n        console.log("Failed", err);\n      }) \n```\n\n### Reference Docs: \n[Ekstep Renderer API documentation](https://community.ekstep.in/developer-documentation/renderer-plugins/docs/EkstepRendererAPI.html)\n\n[TelemetrySpec documentation](https://community.ekstep.in/specifications-guides/53-telemetry-specification)\n\n[ContentRenderer TelemetryService Methods](https://github.com/ekstep/Common-Design/wiki/TelemetryV2-manager-methods)\n\n\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: '6c87aa38282c3531faf7323be350867efa5c1006',
+18 silly publish   _id: 'org.ekstep.rendererinterface@0.0.1',
+18 silly publish   _shasum: 'cbcbaf80f02e1e35edfb515d426e1ca643473a09',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name org.ekstep.rendererinterface
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/org.ekstep.rendererinterface
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /home/krushanu/.npm/org.ekstep.rendererinterface/0.0.1/package.tgz
+26 verbose request uri https://registry.npmjs.org/org.ekstep.rendererinterface
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 12:19:31 PM
+29 verbose request using bearer token for auth
+30 verbose request id 881e0af44fe54c2a
+31 http request PUT https://registry.npmjs.org/org.ekstep.rendererinterface
+32 http 403 https://registry.npmjs.org/org.ekstep.rendererinterface
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '91',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Fri, 08 Sep 2017 06:49:32 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-lcy1124-LCY',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1504853372.998771,VS0,VE903',
+33 verbose headers   vary: 'Accept-Encoding, Accept' }
+34 verbose request invalidating /home/krushanu/.npm/registry.npmjs.org/org.ekstep.rendererinterface on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: You cannot publish over the previously published version 0.0.1. : org.ekstep.rendererinterface
+36 verbose stack     at makeError (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/share/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/usr/share/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/share/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid org.ekstep.rendererinterface
+39 verbose cwd /home/krushanu/Desktop/npmpublish/renderer-interface
+40 error Linux 4.8.0-59-generic
+41 error argv "/usr/bin/nodejs" "/usr/bin/npm" "publish"
+42 error node v4.2.6
+43 error npm  v3.5.2
+44 error code E403
+45 error You cannot publish over the previously published version 0.0.1. : org.ekstep.rendererinterface
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
