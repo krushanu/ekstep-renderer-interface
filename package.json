@@ -1,0 +1,32 @@
+{
+  "name": "org.ekstep.rendererinterface",
+  "version": "0.0.1",
+  "description": "It helps to interact with the renderer and access renderer apis.",
+  "main": "RendererInterface.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krushanu/ekstep-renderer-interface.git"
+  },
+  "keywords": [
+    "org.ekstep",
+    "ekstep",
+    "renderer",
+    "html",
+    "content",
+    "interface",
+    "genie",
+    "service"
+  ],
+  "author": "Krushanu Mohapatra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krushanu/ekstep-renderer-interface/issues"
+  },
+  "homepage": "https://github.com/krushanu/ekstep-renderer-interface#readme"
+}
