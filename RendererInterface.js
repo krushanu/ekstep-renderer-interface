@@ -1,5 +1,5 @@
 /**
- * @author Manjunath Davanam <manjunathd@ilimi.in>
+ * @author Manjunath Davanam <manjunathd@ilimi.in> Krushanu Mohapatra <mohapatrakrushanu@gmail.com>
  */
 
 window.org = {"ekstep": {} }
